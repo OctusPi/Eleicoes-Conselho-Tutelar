@@ -1,0 +1,8 @@
+<Files "connection.php">
+  Order Allow,Deny
+  Deny from all
+</Files>
+<Files "smtp.php">
+  Order Allow,Deny
+  Deny from all
+</Files>

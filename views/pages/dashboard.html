@@ -1,0 +1,59 @@
+<main class="main-risizeble p-4">
+    <div class="row text mb-2">
+        <div class="col-md-3 p-2">
+            <div class="box p-4 d-flex">
+                <div class="dash-info">
+                    <p class="text-secondary">Abertos</p>
+                    <p class="focus-info">{{opens_calls}}</p>
+                </div>
+                <div class="dash-icon ms-auto"><i class="bi bi-wrench icon-danger"></i></div>
+            </div>
+        </div>
+        <div class="col-md-3 p-2">
+            <div class="box p-4 d-flex">
+                <div class="dash-info">
+                    <p class="text-secondary">Em Atendimento</p>
+                    <p class="focus-info">{{proccess_calls}}</p>
+                </div>
+                <div class="dash-icon ms-auto"><i class="bi bi-gear icon-warning"></i></div>
+            </div>
+        </div>
+        <div class="col-md-3 p-2">
+            <div class="box p-4 d-flex">
+                <div class="dash-info">
+                    <p class="text-secondary">Solucionados</p>
+                    <p class="focus-info">{{solved_calls}}</p>
+                </div>
+                <div class="dash-icon ms-auto"><i class="bi bi-check-square icon-primary"></i></div>
+            </div>
+        </div>
+        <div class="col-md-3 p-2">
+            <div class="box p-4 d-flex">
+                <div class="dash-info">
+                    <p class="text-secondary">Finalizados</p>
+                    <p class="focus-info">{{finish_calls}}</p>
+                </div>
+                <div class="dash-icon ms-auto"><i class="bi bi-journal-bookmark icon-success"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="row text mb-3">
+        <div class="col-md-6 p-2">
+            <div class="box py-4">
+                <div class="dash-title-info px-4">Chamados por Setor </div>
+                <div class="dash-body-info dash-vertical-info px-4">{{sectors_chain}}</div>
+            </div>
+        </div>
+        <div class="col-md-6 p-2">
+            <div class="box py-4">
+                <div class="dash-title-info px-4">Chamados por Técnico </div>
+                <div class="dash-body-info dash-vertical-info px-4">{{tech_chain}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="box text py-4">
+        <div class="dash-title-info px-4">Lista de Chamados Pendentes </div>
+        <div id="data-view" class="table-responsive">
+        </div>
+    </div>
+</main>

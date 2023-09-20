@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        /* Estilos gerais */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Título do e-mail */
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Texto do e-mail */
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Botão do e-mail */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        /* Rodapé do e-mail */
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{title}}</h1>
+        {{content}}
+        
+        <p>Se você não tem conhecimento desta interação, por favor desconsidere esta mensagem.</p>
+        <p>Obrigado,</p>
+        <p>A Equipe {{dev_name}}</p>
+        <div class="footer">
+            &copy; 2023 {{dev_name}}. Todos os direitos reservados.
+        </div>
+    </div>
+</body>
+</html>

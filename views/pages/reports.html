@@ -1,0 +1,57 @@
+<main class="main-risizeble p-4">
+	
+	<div class="container text">
+		<div class="card-header d-md-block d-lg-flex">
+			<div class="card-title">
+				<h3 class="p-0 m-0"><i class="bi bi-bar-chart-line"></i> Relatórios</h3>
+				<p class="p-0 m-0 text-secondary small">Tabulação de Dados e Registros.</p>
+			</div>
+		</div>
+		<div class="box p-4 mt-3">
+			<form action="{{route_action}}" method="POST" enctype="multipart/form-data">
+				<input type="hidden" name="token" value="{{token}}">
+				<div class="row">
+					<div class="col-md-4 text-start mb-2">
+						<label for="dataini" class="form-label">Data Inicial</label>
+						<input name="dataini" type="text" class="form-control ocp-input maskdata" 
+						id="dataini" placeholder="DD/MM/AAAA" data-required="true">
+					</div>
+					<div class="col-md-4 text-start mb-2">
+						<label for="datafin" class="form-label">Data Final</label>
+						<input name="datafin" type="text" class="form-control ocp-input maskdata" 
+						id="datafin" placeholder="DD/MM/AAAA" data-required="true">
+					</div>
+					<div class="col-md-4 text-start mb-2">
+						<label for="status" class="form-label">Status</label>
+						<select name="status" class="form-control ocp-input" id="status">
+							{{form_status}}
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 text-start mb-2">
+						<label for="setor" class="form-label">Setor</label>
+						<select name="setor" class="form-control ocp-input loadtriger" id="setor" data-load="equipamento">
+							{{form_setores}}
+						</select>
+					</div>
+					<div class="col-md-4 text-start mb-2">
+						<label for="equipamento" class="form-label">Equipamento</label>
+						<select name="equipamento" class="form-control ocp-input" id="equipamento">
+							{{form_equipamentos}}
+						</select>
+					</div>
+					<div class="col-md-4 text-start mb-2">
+						<label for="tecnico" class="form-label">Técnico</label>
+						<select name="tecnico" class="form-control ocp-input" id="tecnico">
+							{{form_tecnicos}}
+						</select>
+					</div>
+				</div>
+				<div class="text-end mt-3">
+					<button type="submit" class="btn btn-action"><i class="bi bi-check-circle"></i> Gerar Relatório</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</main>

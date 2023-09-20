@@ -1,0 +1,33 @@
+<nav class="navbar  fixed-top navbar-main">
+	<div class="container-fluid">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+			aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<a class="navbar-brand" href="#">
+			<img src="resources/imgs/logo-named.svg" class="navbar-logo-main" alt="Logo Sistema">
+		</a>
+		<div class="d-flex">
+			<div class="navbar-main-info">
+				<ul class="d-flex">
+					<li class="nav-item">
+						<a class="nav-link" href="?app=manual">Manual</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="?app=sobre">Sobre</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">{{sys_version}}</a>
+					</li>
+				</ul>
+				<p>{{sys_copy}}</p>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<div class="collapse navbar-collapse navbar-body-main" id="navbarText">
+	<div class="navnar-content-main">
+		{{nav_builder}}
+	</div>
+</div>

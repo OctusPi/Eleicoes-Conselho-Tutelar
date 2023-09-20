@@ -1,0 +1,7 @@
+<?php
+define('TYPE', '');
+define('HOST', '');
+define('PORT', '');
+define('DATA', '');
+define('USER', '');
+define('PASS', '');

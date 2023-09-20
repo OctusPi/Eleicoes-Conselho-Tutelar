@@ -1,0 +1,26 @@
+<form action="{{route_search}}" data-request="async" 
+method="POST" enctype="multipart/form-data" id="form-search">
+<div class="content-search p-4">
+    <input type="hidden" name="token_search" value="{{token}}">
+    <div class="col-12 text-start mb-2">
+        <label for="scode" class="form-label">Código de Identificação</label>
+        <input type="text" name="cod" class="form-control ocp-input"
+        id="scode" placeholder="Código de Identificação">
+    </div>
+    <div class="col-12 text-start mb-2">
+        <label for="snome" class="form-label">Setor</label>
+        <input type="text" name="nome" class="form-control ocp-input"
+        id="snome" placeholder="Nome Setor">
+    </div>
+    <div class="col-12 text-start mb-2">
+        <label for="szona" class="form-label">Zona</label>
+        <select name="zona" class="form-control ocp-input" id="szona">
+            {{form_zonas}}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-action btn-sigin w-100 mt-3">
+        <i class="bi bi-search"></i>
+        Localizar
+    </button>
+</div>
+</form>
