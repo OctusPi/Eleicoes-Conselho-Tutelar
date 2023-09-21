@@ -43,7 +43,7 @@ class NavBuild
             'sessoes' => [
                 'nav_active' => is_active('sessoes'),
                 'nav_link'   => "?app=sessoes",
-                'nav_icon'   => "bi-buildings",
+                'nav_icon'   => "bi-house",
                 'nav_title'  => "Sessões"
             ],
             'reports' => [

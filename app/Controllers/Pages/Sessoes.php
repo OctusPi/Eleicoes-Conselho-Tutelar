@@ -3,6 +3,7 @@ namespace App\Controllers\Pages;
 
 use App\Data\ImpDao;
 use App\Models\Candidato;
+use App\Models\Sessao;
 use App\Utils\Alerts;
 use App\Utils\Forms;
 use App\Utils\Route;
@@ -11,46 +12,29 @@ use App\Utils\Utils;
 use App\Utils\Validate;
 use App\Utils\View;
 
-class Candidatos extends Page
+class Sessoes extends Page
 {
 
 	public function index(): string
 	{
 		$params = [
-			'form_search' => View::renderView('pages/forms/search/candidatos')
+			'form_search' => View::renderView('pages/forms/search/sessoes')
 		];
-		return $this->getPage('Candidatos', 'pages/candidatos', $params);
+		return $this->getPage('Sessoes', 'pages/sessoes', $params);
 	}
 
 	public function submit(): string
 	{
 		$values   = Forms::all();
 		$validate = Validate::check($values, [
-			'numero' => 'required',
-			'nome'   => 'required'
+			'local' => 'required',
+			'numero'   => 'required'
 		]);
 
 		if($validate['status']){
-			$candidado = new Candidato();
-			$candidado->feeds($values);
-
-			// up photo
-			if(isset($_FILES['foto']) && !empty($_FILES['foto'])){
-				$up = new Uploads();
-				$up->up($_FILES['foto']);
-				$upstatus = $up->getstatus();
-				if($upstatus['status'][0]){
-					$candidado->set('foto', $upstatus['file'][0]);
-				}else{
-					if($candidado->get('id') == 0){
-						return json_encode([
-							'message' => Alerts::msg(Alerts::WARNING, $upstatus['info'][0]),
-						]); 
-					}
-				}
-			}
-
-			$dao = new ImpDao($candidado);
+			$sessao = new Sessao();
+			$sessao->feeds($values);
+			$dao = new ImpDao($sessao);
 			$wirte = $dao->writeData();
 
 			return json_encode([
@@ -67,16 +51,15 @@ class Candidatos extends Page
 	public function data(bool $json = true): string|array
 	{
 		$header = [
-			'foto'			 => 'FOTO',
-			'nome'			 => 'CANDIDATO(A)',
-			'numero'		 => 'NÚMERO',
+			'local'			 => 'LOCAL',
+			'numero'		 => 'SEÇÃO',
 			'actions'		 => ''
 		];
-		$candidatos = (new ImpDao(new Candidato()))->readData($this->search(), true, 'nome');
+		$sessoes = (new ImpDao(new Sessao()))->readData($this->search(), true, 'local');
 
 		$data = [
 			'header' => $header,
-			'body' => Candidato::toArray($candidatos, array_keys($header), ["edit", "delete"]),
+			'body' => Candidato::toArray($sessoes, array_keys($header), ["edit", "delete"]),
 		];
 
 		return $json ? json_encode(['dataview' => $data]) : $data;
@@ -85,10 +68,10 @@ class Candidatos extends Page
 	public function dataone(?array $params = null):string
 	{
 		$search = $params ?? ['id' => Route::only('key')];
-		$candiadato  = (new ImpDao(new Candidato()))->readData($search);
-		if($candiadato != null){
+		$sessao  = (new ImpDao(new Sessao()))->readData($search);
+		if($sessao != null){
 			return json_encode([
-				'dataobj' => $candiadato->getPropsValues()
+				'dataobj' => $sessao->getPropsValues()
 			]);
 		}
 
@@ -101,9 +84,9 @@ class Candidatos extends Page
 	{
 		$values = Forms::all();
 
-		$candidato = new Candidato();
-		$candidato->feeds($values);
-		$dao = new ImpDao($candidato);
+		$sessao = new Sessao();
+		$sessao->feeds($values);
+		$dao = new ImpDao($sessao);
 		$erase = $dao->delData();
 
 		return json_encode([
@@ -118,7 +101,7 @@ class Candidatos extends Page
 	private function search(): array
 	{
 
-		$fields = ['nome', 'numero'];
+		$fields = ['local', 'numero'];
 
 		$values   = Forms::all();
 		$insearch = Forms::only('search');
