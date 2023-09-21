@@ -1,5 +1,5 @@
-// import './bootstrap' /* production */
-import '~b/js/bootstrap.bundle.min.js' /* developer */
+import './bootstrap' /* production */
+// import '~b/js/bootstrap.bundle.min.js' /* developer */
 import './axios'
 import utils from './utils'
 import forms from './forms'

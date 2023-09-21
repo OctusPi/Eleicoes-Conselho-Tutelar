@@ -1,100 +1,17 @@
-<div class="modal fade" id="modalRegister" data-bs-backdrop="static" data-bs-keyboard="false"
-	aria-labelledby="modalRegisterLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered modal-lg">
-		<div class="modal-content box p-4">
-			<form action="{{route_action}}" data-request="async" method="POST" enctype="multipart/form-data">
-				<input type="hidden" name="token" value="{{token}}">
-				<input type="hidden" id="id" name="id" value="0" class="ocp-input">
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-md-4 text-start mb-2">
-							<label for="cod" class="form-label">Código de Identificação</label>
-							<input name="cod" type="text" class="form-control ocp-input" id="cod" placeholder="0000000"
-								data-required="true">
-						</div>
-						<div class="col-md-8 text-start mb-2">
-							<label for="nome" class="form-label">Setor</label>
-							<input name="nome" type="text" class="form-control ocp-input" id="nome"
-								placeholder="Nome de Identificação" data-required="true">
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4 text-start mb-2">
-							<label for="zona" class="form-label">Zona</label>
-							<select name="zona" class="form-control ocp-input" id="zona" data-required="true">
-								{{form_zonas}}
-							</select>
-						</div>
-						<div class="col-md-8 text-start mb-2">
-							<label for="endereco" class="form-label">Endereço</label>
-							<input name="endereco" type="text" class="form-control ocp-input" id="endereco"
-								placeholder="Logradouro, Num - Bairro" data-required="true">
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4 text-start mb-2">
-							<label for="telefone" class="form-label">Telefone</label>
-							<input name="telefone" type="text" class="form-control ocp-input maskphone" id="telefone"
-								placeholder="(00)0.0000-0000">
-						</div>
-						<div class="col-md-4 text-start mb-2">
-							<label for="email" class="form-label">E-mail</label>
-							<input name="email" type="email" class="form-control ocp-input" id="email"
-								placeholder="E-mail de contato oficial">
-						</div>
-						<div class="col-md-4 text-start mb-2">
-							<label for="encarregado" class="form-label">Encarregado</label>
-							<input name="encarregado" type="text" class="form-control ocp-input" id="encarregado"
-								placeholder="Chefe ou Coodenador Encarregado">
-						</div>
-					</div>
 
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-						<i class="bi bi-slash-circle"></i>
-						Cancelar
-					</button>
-					<button type="submit" class="btn btn-action"><i class="bi bi-check-circle"></i> Salvar</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
 
 <main class="main-risizeble p-4">
-	<div class="card-header d-md-block d-lg-flex">
+	<div class="card-header d-md-block d-lg-flex mb-3">
 		<div class="card-title">
-			<h3 class="p-0 m-0"><i class="bi bi-buildings"></i> Setores</h3>
-			<p class="p-0 m-0 text-secondary small">Registro Geográfico de Setores Atendidos.</p>
+			<h3 class="p-0 m-0"><i class="bi bi-arrow-down-square"></i> Apuração</h3>
+			<p class="p-0 m-0 text-secondary small">Registro dos Votos Apurados.</p>
 		</div>
 		<div class="card-actions no-print ms-auto">
-			<ul class="list-inline">
-				<li class="list-inline-item">
-					<button class="btn btn-tab btn-tab-action ocp-btn-toogle-form my-1" data-bs-toggle="modal"
-						data-bs-target="#modalRegister" id="addbtn">
-						<i class="bi bi-plus-circle"></i>
-						Adicionar
-					</button>
-				</li>
-				<li class="list-inline-item" id="btnfilter">
-					<div class="dropdown m-0 p-0">
-						<button class="btn btn-tab btn-tab-action-secondary dropdown my-1" type="button"
-							data-bs-toggle="dropdown">
-							<i class="bi bi-search"></i>
-							Localizar
-						</button>
-						<div class="dropdown-menu dropdown-menu-end ocp-drop-form" aria-labelledby="ocpBtnFilter">
-							{{form_search}}
-						</div>
-					</div>
-				</li>
-
-			</ul>
+			
 		</div>
 	</div>
 
 	<div class="box py-4">
-		<div class="table-responsive" id="data-view"></div>
+		
 	</div>
 </main>
