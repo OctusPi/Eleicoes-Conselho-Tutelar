@@ -36,8 +36,14 @@ class forms {
 		if (form) {
 			form.reset()
 			const idform = document.getElementById('id')
+			const foto   = document.getElementById('circle-foto')
+
 			if (idform) {
 				idform.value = 0
+			}
+
+			if(foto){
+				foto.src = "resources/imgs/icon-foto.svg"
 			}
 		}
 	}
@@ -186,11 +192,10 @@ class forms {
 				})
 
 				//feed img container
-				const frame = document.getElementById('ocpframeimage');
-				if (frame) {
+				const foto = document.getElementById('circle-foto');
+				if (foto) {
 					if (values['foto']) {
-						frame.innerHTML = `<img src="uploads/${values['foto']}" 
-                        alt="" class="ocp-picture-imgform mx-auto"/>`
+						foto.src = 'storage/uploads/'+values['foto']
 					}
 				}
 			}

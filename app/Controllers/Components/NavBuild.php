@@ -28,21 +28,21 @@ class NavBuild
                 'nav_icon'   => "bi-menu-down",
                 'nav_title'  => "Dashboard"
             ],
-            'apuracoes' => [
-                'nav_active' => is_active('apuracoes'),
-                'nav_link'   => "?app=dashboard",
+            'apuracao' => [
+                'nav_active' => is_active('apuracao'),
+                'nav_link'   => "?app=apuracao",
                 'nav_icon'   => "bi-arrow-down-square",
                 'nav_title'  => "Apuração"
             ],
             'candidatos' => [
                 'nav_active' => is_active('candidatos'),
-                'nav_link'   => "?app=chamados",
+                'nav_link'   => "?app=candidatos",
                 'nav_icon'   => "bi-person-square",
                 'nav_title'  => "Candidatos"
             ],
             'sessoes' => [
                 'nav_active' => is_active('sessoes'),
-                'nav_link'   => "?app=setores",
+                'nav_link'   => "?app=sessoes",
                 'nav_icon'   => "bi-buildings",
                 'nav_title'  => "Sessões"
             ],

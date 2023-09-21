@@ -2,9 +2,7 @@
 namespace App\Utils;
 
 use App\Controllers\Pages\Page;
-use App\Models\EntityUser;
 use App\Utils\Utils;
-use App\Utils\Session;
 use App\Utils\Security;
 use App\Controllers\Pages\NotFound;
 

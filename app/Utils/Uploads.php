@@ -23,13 +23,12 @@ class Uploads
 	private function getAccept(): array
 	{
 		return [
-			'application/x-zip' => '.zip',
-			'application/x-zip-compressed' => '.zip',
-			'application/x-rar-compressed' => '.rar',
-			'application/x-rar' => '.rar',
-			'application/x-7z-compressed' => '.7z',
-			'application/x-7z' => '.7z',
-			'application/octet-stream' => '.rar'
+			'image/png' => '.png',
+			'image/jpeg' => '.jpeg',
+			'image/jpg' => '.jpg',
+			'image/gif' => '.gif',
+			'image/webp' => '.webp',
+			'image/svg' => '.svg'
 		];
 	}
 

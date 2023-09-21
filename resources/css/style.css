@@ -98,7 +98,11 @@ input[type="reset"] {
 /* Header */
 .navbar-main {
 	background-color: var(--color-navtop);
-	border-bottom: var(--border-box);
+}
+
+.navbar{
+	--bs-navbar-toggler-border-color:none;
+	--bs-navbar-toggler-focus-width:none;
 }
 
 .navbar-logo-main {
@@ -108,7 +112,12 @@ input[type="reset"] {
 
 .navbar-body-main {
 	background-color: var(--color-navtop);
-	margin-top: 78px;
+	position: absolute;
+	top:76px;
+	z-index: 1000;
+	width: 300px;
+	border-bottom-left-radius: var(--radius);
+	border-bottom-right-radius: var(--radius);
 }
 
 .navnar-content-main {
@@ -155,11 +164,17 @@ input[type="reset"] {
 }
 
 .navbar-main-info ul {
+	
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	display: flex;
 	flex-direction: row;
+	margin-top: 10px;
+}
+
+.navbar-main-info ul li{
+	margin-right: 5px;
 }
 
 
@@ -534,4 +549,52 @@ input[type="reset"] {
 
 .x-small {
 	font-size: 0.8rem;
+}
+
+/* view foto input file */
+.foto-content{
+	position: relative;
+	width: 140px;
+	height: 140px;
+}
+
+.foto-content i{
+	font-size: 6rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.foto-content input{
+	width: 140px;
+	height: 140px;
+	border-radius: 50%;
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+
+}
+
+.view-foto{
+	width: 140px;
+	height: 140px;
+	border-radius: 50%;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.view-foto img{
+	height: 100%;
+	width: auto;
+	border-radius: 50%;
+}
+
+.foto-table{
+	height: 40px;
+	width: auto;
+	border-radius: 50%;
 }

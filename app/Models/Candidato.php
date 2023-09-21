@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-class Cadidato extends Model
+class Candidato extends Model
 {
     protected string $nome;
     protected string $numero;

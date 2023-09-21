@@ -1,28 +1,28 @@
 <?php
 namespace App\Data;
 
-use App\Models\Entity;
+use App\Models\Model;
 use App\Utils\Log;
 use Exception;
 use PDO;
 
 abstract class Dao
 {
-	protected Entity $entity;
+	protected Model $model;
 
-	public function __construct(Entity $entity)
+	public function __construct(Model $model)
 	{
-		$this->entity = $entity;
+		$this->model = $model;
 	}
 
-	public function getEntity(): Entity
+	public function getModel(): Model
 	{
-		return $this->entity;
+		return $this->model;
 	}
 
 	public function isExists(): bool
 	{
-		$sql = 'SELECT * FROM ' . $this->getEntity()->getTable() . ' WHERE id = ' . $this->getEntity()->get('id');
+		$sql = 'SELECT * FROM ' . $this->getModel()->getTable() . ' WHERE id = ' . $this->getModel()->get('id');
 		return $this->execBool($sql);
 	}
 
@@ -33,18 +33,18 @@ abstract class Dao
 	 */
 	public function isOnly(): bool
 	{
-		$params = $this->getEntity()->getExclusiveProps();
-		$search = $this->getEntity()->getValues($params);
+		$params = $this->getModel()->getExclusiveProps();
+		$search = $this->getModel()->getValues($params);
 
 		$binds = array_map(function ($item) {
 			return $item . '=?'; }, $params);
 		$fields = $params != null ? ' WHERE ' . implode(' AND ', $binds) . ' AND ' : '';
 		
-		$sql = 'SELECT * FROM ' . $this->getEntity()->getTable() . $fields . 'id != ' . $this->getEntity()->get('id');
+		$sql = 'SELECT * FROM ' . $this->getModel()->getTable() . $fields . 'id != ' . $this->getModel()->get('id');
 
 		if ($params != null) {
 			$food = $this->execFetch($sql, $search);
-			$this->getEntity()->feeds($food);
+			$this->getModel()->feeds($food);
 			return $food == null;
 		}
 
@@ -53,22 +53,22 @@ abstract class Dao
 
 	public function daoIn(): bool
 	{
-		$params = $this->getEntity()->getPropsValuesDB();
+		$params = $this->getModel()->getPropsValuesDB();
 
 		$binds = implode(',', array_keys($params));
 		$values = implode(',', array_map(function ($item) {
 			return '?'; }, $params));
-		$sql = 'INSERT INTO ' . $this->getEntity()->getTable() . ' (' . $binds . ') VALUES (' . $values . ')';
+		$sql = 'INSERT INTO ' . $this->getModel()->getTable() . ' (' . $binds . ') VALUES (' . $values . ')';
 
 		return $this->execFeed($sql, $params);
 	}
 
 	public function daoUp(): bool
 	{
-		$params = $this->getEntity()->getPropsValuesDB();
+		$params = $this->getModel()->getPropsValuesDB();
 		$binds = implode(',', array_map(function ($item) {
 			return $item . '=?'; }, array_keys($params)));
-		$sql = 'UPDATE ' . $this->getEntity()->getTable() . ' SET ' . $binds . ' WHERE id = ' . $this->getEntity()->get('id');
+		$sql = 'UPDATE ' . $this->getModel()->getTable() . ' SET ' . $binds . ' WHERE id = ' . $this->getModel()->get('id');
 
 		return $this->execBool($sql, $params);
 	}
@@ -76,35 +76,35 @@ abstract class Dao
 	public function daoDel(?array $params = null, bool $all = false): bool
 	{
 		if ($all) {
-			$sql = 'DELETE FROM ' . $this->getEntity()->getTable();
+			$sql = 'DELETE FROM ' . $this->getModel()->getTable();
 		} else {
 			$where = $params == null
-				? 'id = ' . $this->getEntity()->get('id')
+				? 'id = ' . $this->getModel()->get('id')
 				: implode(' AND ', array_map(function ($col, $val) {
 					return $col . " = '" . $val . "'";
 				}, array_keys($params), $params));
 
-			$sql = 'DELETE FROM ' . $this->getEntity()->getTable()
+			$sql = 'DELETE FROM ' . $this->getModel()->getTable()
 				. ' WHERE ' . $where;
 		}
 
 		return $this->execBool($sql);
 	}
 
-	public function daoGetOne(array $params = [], string $mode = ' AND ', string $columns = '*'): ?Entity
+	public function daoGetOne(array $params = [], string $mode = ' AND ', string $columns = '*'): ?Model
 	{
 		$binds = array_map($this->mapOperator(), array_keys($params), array_values($params));
 		$fields = $params != null ? ' WHERE ' . implode($mode, $binds) : '';
 		$search = array_map($this->mapWildCard(), array_values($params));
 
 		//make sql
-		$sql = 'SELECT ' . $columns . ' FROM ' . $this->getEntity()->getTable() . $fields;
+		$sql = 'SELECT ' . $columns . ' FROM ' . $this->getModel()->getTable() . $fields;
 
-		//execute query and feed entity
+		//execute query and feed Model
 		$food = $this->execFetch($sql, $search);
 		if ($food != null) {
-			$this->getEntity()->feeds($food);
-			return $this->getEntity();
+			$this->getModel()->feeds($food);
+			return $this->getModel();
 		} else {
 			return null;
 		}
@@ -121,33 +121,33 @@ abstract class Dao
 		$limit = strlen($limit) ? ' LIMIT ' . $limit : '';
 
 		//make sql
-		$sql = 'SELECT ' . $columns . ' FROM ' . $this->getEntity()->getTable() . $fields . $order . $limit;
+		$sql = 'SELECT ' . $columns . ' FROM ' . $this->getModel()->getTable() . $fields . $order . $limit;
 
 		//execute query and get array statment
 		$entft = [];
 		$fetch = $this->execFetch($sql, $search, true);
 
-		//loop statment end feed entity array
+		//loop statment end feed Model array
 		if ($fetch != null) {
 			foreach ($fetch as $food) {
-				$nmentity = $this->getEntity()->classname();
-				$entity = new $nmentity();
-				$entity->feeds($food);
-				$entft[$entity->get('id')] = $entity;
+				$nmModel = $this->getModel()->classname();
+				$model = new $nmModel();
+				$model->feeds($food);
+				$entft[$model->get('id')] = $model;
 			}
 		}
 		return $entft;
 	}
 
-	public function daoGetJoinOne(array $params = [], string $mode = ' AND ', string $columns = '*'): ?Entity
+	public function daoGetJoinOne(array $params = [], string $mode = ' AND ', string $columns = '*'): ?Model
 	{
-		if ($this->getEntity()->getJoinProps() != null) {
+		if ($this->getModel()->getJoinProps() != null) {
 			//make join values and concatene tables
-			$entitys = $this->getEntity()->getJoinProps()['entitys'];
-			$joins = $this->getEntity()->getJoinProps()['joins'];
+			$models = $this->getModel()->getJoinProps()['Models'];
+			$joins = $this->getModel()->getJoinProps()['joins'];
 
-			$mapfields = array_map($this->mapJoin(), $entitys, $joins);
-			$maptabs = array_map($this->mapOn(), $entitys, $mapfields);
+			$mapfields = array_map($this->mapJoin(), $models, $joins);
+			$maptabs = array_map($this->mapOn(), $models, $mapfields);
 			$innerjoin = ' INNER JOIN ' . implode(' INNER JOIN ', $maptabs);
 
 			//map operators sql where
@@ -158,13 +158,13 @@ abstract class Dao
 			$search = $this->lineWildCard(array_map($this->mapWildCard(), $params));
 
 			//make sql
-			$sql = 'SELECT ' . $columns . ' FROM ' . $this->getEntity()->getTable() . $innerjoin . $fields;
+			$sql = 'SELECT ' . $columns . ' FROM ' . $this->getModel()->getTable() . $innerjoin . $fields;
 
-			//execute query and feed entity
+			//execute query and feed Model
 			$food = $this->execFetch($sql, $search);
 			if ($food != null) {
-				$this->getEntity()->feedsJoin($food);
-				return $this->getEntity();
+				$this->getModel()->feedsJoin($food);
+				return $this->getModel();
 			}
 		}
 
@@ -174,14 +174,14 @@ abstract class Dao
 	public function daoGetJoinAll(array $params = [], string $order = '', string $limit = '', string $mode = ' AND ', string $columns = '*'): ?array
 	{
 
-		if ($this->getEntity()->getJoinProps() != null) {
+		if ($this->getModel()->getJoinProps() != null) {
 
 			//make join values and concatene tables
-			$entitys = $this->getEntity()->getJoinProps()['entitys'];
-			$joins   = $this->getEntity()->getJoinProps()['joins'];
+			$models = $this->getModel()->getJoinProps()['Models'];
+			$joins   = $this->getModel()->getJoinProps()['joins'];
 
-			$mapfields = array_map($this->mapJoin(), $entitys, $joins);
-			$maptabs   = array_map($this->mapOn(), $entitys, $mapfields);
+			$mapfields = array_map($this->mapJoin(), $models, $joins);
+			$maptabs   = array_map($this->mapOn(), $models, $mapfields);
 			$innerjoin = ' INNER JOIN ' . implode(' INNER JOIN ', $maptabs);
 
 			//map operators sql where
@@ -196,17 +196,17 @@ abstract class Dao
 			$limit = strlen($limit) ? ' LIMIT ' . $limit : '';
 
 			//make sql
-			$sql = 'SELECT ' . $columns . ' FROM ' . $this->getEntity()->getTable() . $innerjoin . $fields . $order . $limit;
+			$sql = 'SELECT ' . $columns . ' FROM ' . $this->getModel()->getTable() . $innerjoin . $fields . $order . $limit;
 
-			//loop statment end feed entity array
+			//loop statment end feed Model array
 			$entft = [];
 			$fetch = $this->execFetch($sql, $search, true);
 			if ($fetch != null) {
 				foreach ($fetch as $food) {
-					$nmentity = $this->getEntity()->classname();
-					$entity = new $nmentity();
-					$entity->feedsJoin($food);
-					$entft[$entity->get('id')] = $entity;
+					$nmModel = $this->getModel()->classname();
+					$model = new $nmModel();
+					$model->feedsJoin($food);
+					$entft[$model->get('id')] = $model;
 				}
 			}
 
@@ -218,15 +218,15 @@ abstract class Dao
 
 	public function daoGetSUM(string $sum, array $params, string $mode = ' AND '): float|int
 	{
-		//create binds and fields dynamic by entity and params search
+		//create binds and fields dynamic by Model and params search
 		$binds = array_map(function ($key, $value) {
 			return $key . "='" . $value . "'"; }, array_keys($params), array_values($params));
 		$fields = $params != null ? ' WHERE ' . implode($mode, $binds) : '';
 
 		//make sql
-		$sql = 'SELECT SUM(' . $sum . ') FROM ' . $this->getEntity()->getTable() . $fields;
+		$sql = 'SELECT SUM(' . $sum . ') FROM ' . $this->getModel()->getTable() . $fields;
 
-		//execute query and feed entity
+		//execute query and feed Model
 		return $this->execSum($sql);
 	}
 
@@ -307,7 +307,7 @@ abstract class Dao
 				$exec = $execQuery->rowCount() > 0;
 
 				if ($exec) {
-					$this->getEntity()->set('id', $connDB->lastInsertId());
+					$this->getModel()->set('id', $connDB->lastInsertId());
 				}
 			}
 
@@ -372,18 +372,18 @@ abstract class Dao
 
 	private function mapJoin(): callable
 	{
-		$mapJoin = function ($entity, $campos) {
+		$mapJoin = function ($model, $campos) {
 			//initialize arrays to insert rigth values to join operation and define primary table
 			$binds = [];
 			$join  = [];
-			$tabprimary = $this->getEntity()->getTable();
+			$tabprimary = $this->getModel()->getTable();
 
 			//concatene tables with field by position in array
 			foreach ($campos as $key => $campo) {
 				if ($key == 0 || $key % 2 == 0) {
 					$binds[] = $tabprimary . '.' . $campo;
 				} else {
-					$binds[] = $entity->getTable() . '.' . $campo;
+					$binds[] = $model->getTable() . '.' . $campo;
 				}
 			}
 
@@ -402,8 +402,8 @@ abstract class Dao
 
 	private function mapOn(): callable
 	{
-		$mapOn = function ($entity, $campos) {
-			return $entity->getTable() . ' ON ' . $campos;
+		$mapOn = function ($model, $campos) {
+			return $model->getTable() . ' ON ' . $campos;
 		};
 
 		return $mapOn;

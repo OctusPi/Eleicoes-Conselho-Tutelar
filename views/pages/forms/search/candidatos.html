@@ -1,0 +1,20 @@
+<form action="{{route_search}}" data-request="async" 
+method="POST" enctype="multipart/form-data" id="form-search">
+<div class="content-search p-4">
+    <input type="hidden" name="token_search" value="{{token}}">
+    <div class="col-12 text-start mb-2">
+        <label for="snome" class="form-label">Candidato</label>
+        <input type="text" name="nome" class="form-control ocp-input"
+        id="snome" placeholder="Nome Candidato">
+    </div>
+    <div class="col-12 text-start mb-2">
+        <label for="snumber" class="form-label">Número</label>
+        <input type="text" name="numero" class="form-control ocp-input"
+        id="snumber" placeholder="Número na Urna">
+    </div>
+    <button type="submit" class="btn btn-action btn-sigin w-100 mt-3">
+        <i class="bi bi-search"></i>
+        Localizar
+    </button>
+</div>
+</form>

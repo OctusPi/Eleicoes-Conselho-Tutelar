@@ -78,7 +78,13 @@ class tables {
 					if(index === 'actions'){
 						cell.classList.add("text-end", "text-truncate")
 						this.buildActions(cell, line[index])
-					}else{
+					}else if(index === 'foto'){
+						const foto = document.createElement('img')
+						foto.classList.add('foto-table')
+						foto.src = 'storage/uploads/'+line[index]
+						cell.appendChild(foto)
+					}
+					else{
 						cell.textContent = line[index]
 					}
 				}

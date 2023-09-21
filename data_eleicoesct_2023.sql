@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: database:3306
--- Tempo de geração: 20/09/2023 às 22:08
--- Versão do servidor: 8.1.0
--- Versão do PHP: 8.2.9
+-- Generation Time: Sep 21, 2023 at 07:47 AM
+-- Server version: 8.1.0
+-- PHP Version: 8.2.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `data_eleicoesct_2023`
+-- Database: `data_eleicoesct_2023`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `elct_apuracoes`
+-- Table structure for table `elct_apuracoes`
 --
 
 CREATE TABLE `elct_apuracoes` (
@@ -37,34 +37,41 @@ CREATE TABLE `elct_apuracoes` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `elct_candidatos`
+-- Table structure for table `elct_candidatos`
 --
 
 CREATE TABLE `elct_candidatos` (
   `id` int NOT NULL,
-  `nome` text COLLATE utf8mb3_unicode_ci NOT NULL,
-  `numero` varchar(20) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `foto` int NOT NULL
+  `nome` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `numero` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `foto` text COLLATE utf8mb3_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+--
+-- Dumping data for table `elct_candidatos`
+--
+
+INSERT INTO `elct_candidatos` (`id`, `nome`, `numero`, `foto`) VALUES
+(2, 'ALEXANDRA ROSSUEL', '111', 'a1caed054a901f82b59459d4c238b563.png');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `elct_sessoes`
+-- Table structure for table `elct_sessoes`
 --
 
 CREATE TABLE `elct_sessoes` (
   `id` int NOT NULL,
-  `local` text COLLATE utf8mb3_unicode_ci NOT NULL,
-  `numero` varchar(20) COLLATE utf8mb3_unicode_ci NOT NULL
+  `local` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `numero` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
--- Índices para tabelas despejadas
+-- Indexes for dumped tables
 --
 
 --
--- Índices de tabela `elct_apuracoes`
+-- Indexes for table `elct_apuracoes`
 --
 ALTER TABLE `elct_apuracoes`
   ADD PRIMARY KEY (`id`),
@@ -72,45 +79,45 @@ ALTER TABLE `elct_apuracoes`
   ADD KEY `apuracoes_fk_sessao` (`sessao`);
 
 --
--- Índices de tabela `elct_candidatos`
+-- Indexes for table `elct_candidatos`
 --
 ALTER TABLE `elct_candidatos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `elct_sessoes`
+-- Indexes for table `elct_sessoes`
 --
 ALTER TABLE `elct_sessoes`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de tabela `elct_apuracoes`
+-- AUTO_INCREMENT for table `elct_apuracoes`
 --
 ALTER TABLE `elct_apuracoes`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `elct_candidatos`
+-- AUTO_INCREMENT for table `elct_candidatos`
 --
 ALTER TABLE `elct_candidatos`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de tabela `elct_sessoes`
+-- AUTO_INCREMENT for table `elct_sessoes`
 --
 ALTER TABLE `elct_sessoes`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- Restrições para tabelas despejadas
+-- Constraints for dumped tables
 --
 
 --
--- Restrições para tabelas `elct_apuracoes`
+-- Constraints for table `elct_apuracoes`
 --
 ALTER TABLE `elct_apuracoes`
   ADD CONSTRAINT `apuracoes_fk_candidato` FOREIGN KEY (`candidato`) REFERENCES `elct_candidatos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,

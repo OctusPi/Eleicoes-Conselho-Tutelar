@@ -1,16 +1,16 @@
 <?php
 namespace App\Data;
 
+use App\Models\Model;
 use Exception;
-use App\Models\Entity;
 use App\Utils\Alerts;
 use App\Data\Dao;
 
 class ImpDao extends Dao
 {
-	public function __construct(Entity $entity)
+	public function __construct(Model $model)
 	{
-		parent::__construct($entity);
+		parent::__construct($model);
 	}
 
 	public function writeData(): array
@@ -37,14 +37,14 @@ class ImpDao extends Dao
 		}
 	}
 
-	public function readData(array $params = [], bool $all = false, string $order = '', string $limit = '', string $mode = ' AND ', string $columns = '*'): null|Entity|array
+	public function readData(array $params = [], bool $all = false, string $order = '', string $limit = '', string $mode = ' AND ', string $columns = '*'): null|Model|array
 	{
 		return $all ?
 			$this->daoGetAll($params, $order, $limit, $mode, $columns) :
 			$this->daoGetOne($params, $mode, $columns);
 	}
 
-	public function readDataJoin(array $params = [], bool $all = false, string $order = '', string $limit = '', string $mode = ' AND ', string $columns = '*'): null|Entity|array
+	public function readDataJoin(array $params = [], bool $all = false, string $order = '', string $limit = '', string $mode = ' AND ', string $columns = '*'): null|Model|array
 	{
 		return $all ?
 			$this->daoGetJoinAll($params, $order, $limit, $mode, $columns) :

@@ -7,6 +7,7 @@ import forms from './forms'
 //utilitary methods
 utils.loaddata()
 utils.mask()
+utils.viewimg()
 
 // forms requests and reponses
 forms.create()

@@ -140,6 +140,26 @@ class utils {
 			}
 		}
 	}
+
+	viewimg() {
+		const trigers = [...document.querySelectorAll('.input-foto')]
+		const view	  = document.querySelector('#circle-foto')
+
+		if(trigers && view){
+			trigers.forEach(input => {
+				input.addEventListener('change', e => {
+					const img = e.target
+					if(img.files && img.files[0]){
+						let reader = new FileReader()
+						reader.onload = function (params) {
+							view.src = params.target.result
+						}
+						reader.readAsDataURL(img.files[0])
+					}
+				})
+			})
+		}
+	}
 }
 
 export default new utils()
