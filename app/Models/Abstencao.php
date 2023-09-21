@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-class Sessao extends Model
+class Abstencao extends Model
 {
     protected int|string|Sessao $sessao;
     protected int $nulos;

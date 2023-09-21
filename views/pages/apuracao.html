@@ -1,5 +1,3 @@
-
-
 <main class="main-risizeble p-4">
 	<div class="card-header d-md-block d-lg-flex mb-3">
 		<div class="card-title">
@@ -11,7 +9,37 @@
 		</div>
 	</div>
 
-	<div class="box py-4">
-		
+	<div class="box p-4">
+		<form action="{{route_action}}" data-request="async" method="POST" 
+		enctype="multipart/form-data" id="form_apuracao">
+			<input type="hidden" name="token" value="{{token}}">
+			<div class="row">
+				<div class="col-md-6 text-start mb-2">
+					<label for="sessao" class="form-label">Seção de Votação</label>
+					<select name="sessao" class="form-control ocp-input trigerfeed" id="sessao"
+					data-required="true">
+						{{form_sessoes}}
+					</select>
+				</div>
+				<div class="col-md-3 text-start mb-2">
+					<label for="brancos" class="form-label">Votos Brancos</label>
+					<input name="brancos" type="text" class="form-control ocp-input" id="brancos" 
+					placeholder="0000000" data-required="true" value="0">
+				</div>
+				<div class="col-md-3 text-start mb-2">
+					<label for="nulos" class="form-label">Votos Nulos</label>
+					<input name="nulos" type="text" class="form-control ocp-input" id="nulos" 
+					placeholder="0000000" data-required="true" value="0">
+				</div>
+			</div>
+			<hr>
+			<div class="row mt-4">
+				{{form_candidatos}}
+			</div>
+			
+			<div class="modal-footer mt-2">
+				<button type="submit" class="btn btn-action"><i class="bi bi-check-circle"></i> Salvar</button>
+			</div>
+		</form>
 	</div>
 </main>

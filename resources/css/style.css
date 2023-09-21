@@ -98,6 +98,7 @@ input[type="reset"] {
 /* Header */
 .navbar-main {
 	background-color: var(--color-navtop);
+	border-bottom: var(--border-box);
 }
 
 .navbar{
@@ -597,4 +598,32 @@ input[type="reset"] {
 	height: 40px;
 	width: auto;
 	border-radius: 50%;
+}
+
+.content-voto{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.candidato-view span{
+	margin: 0;
+	padding: 0;
+	font-weight: 600;
+	font-size: 0.8rem;
+}
+
+.dashboard{
+	margin-top: 80px;
+}
+
+.dash-name-cadidate{
+	margin: 0;
+	padding: 0;
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+.divvotes{
+	flex-grow: 2;
 }

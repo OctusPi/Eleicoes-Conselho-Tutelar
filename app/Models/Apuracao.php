@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-class Sessao extends Model
+class Apuracao extends Model
 {
     protected int|string|Cadidato $candidato;
     protected int|string|Sessao $sessao;

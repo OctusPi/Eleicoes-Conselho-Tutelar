@@ -21,7 +21,7 @@ class ImpDao extends Dao
 				$write = $this->isExists() ? $this->daoUp() : $this->daoIn();
 				return [
 					'code' => Alerts::SUCCESS,
-					'status' => $write
+					'status' => true
 				];
 			} catch (Exception $e) {
 				return [

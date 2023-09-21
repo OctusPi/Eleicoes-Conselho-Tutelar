@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: database:3306
--- Generation Time: Sep 21, 2023 at 07:47 AM
--- Server version: 8.1.0
--- PHP Version: 8.2.9
+-- Tempo de geração: 21/09/2023 às 11:39
+-- Versão do servidor: 8.1.0
+-- Versão do PHP: 8.2.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,26 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `data_eleicoesct_2023`
+-- Banco de dados: `data_eleicoesct_2023`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `elct_apuracoes`
+-- Estrutura para tabela `elct_abstencoes`
+--
+
+CREATE TABLE `elct_abstencoes` (
+  `id` int NOT NULL,
+  `sessao` int NOT NULL,
+  `nulos` int NOT NULL DEFAULT '0',
+  `brancos` int NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `elct_apuracoes`
 --
 
 CREATE TABLE `elct_apuracoes` (
@@ -37,18 +50,18 @@ CREATE TABLE `elct_apuracoes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `elct_candidatos`
+-- Estrutura para tabela `elct_candidatos`
 --
 
 CREATE TABLE `elct_candidatos` (
   `id` int NOT NULL,
   `nome` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `numero` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `foto` text COLLATE utf8mb3_unicode_ci NOT NULL
+  `foto` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
--- Dumping data for table `elct_candidatos`
+-- Despejando dados para a tabela `elct_candidatos`
 --
 
 INSERT INTO `elct_candidatos` (`id`, `nome`, `numero`, `foto`) VALUES
@@ -57,7 +70,7 @@ INSERT INTO `elct_candidatos` (`id`, `nome`, `numero`, `foto`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `elct_sessoes`
+-- Estrutura para tabela `elct_sessoes`
 --
 
 CREATE TABLE `elct_sessoes` (
@@ -67,11 +80,18 @@ CREATE TABLE `elct_sessoes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
--- Indexes for dumped tables
+-- Índices para tabelas despejadas
 --
 
 --
--- Indexes for table `elct_apuracoes`
+-- Índices de tabela `elct_abstencoes`
+--
+ALTER TABLE `elct_abstencoes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `abstencoes_fk_sessao` (`sessao`);
+
+--
+-- Índices de tabela `elct_apuracoes`
 --
 ALTER TABLE `elct_apuracoes`
   ADD PRIMARY KEY (`id`),
@@ -79,45 +99,57 @@ ALTER TABLE `elct_apuracoes`
   ADD KEY `apuracoes_fk_sessao` (`sessao`);
 
 --
--- Indexes for table `elct_candidatos`
+-- Índices de tabela `elct_candidatos`
 --
 ALTER TABLE `elct_candidatos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `elct_sessoes`
+-- Índices de tabela `elct_sessoes`
 --
 ALTER TABLE `elct_sessoes`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
--- AUTO_INCREMENT for table `elct_apuracoes`
+-- AUTO_INCREMENT de tabela `elct_abstencoes`
+--
+ALTER TABLE `elct_abstencoes`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `elct_apuracoes`
 --
 ALTER TABLE `elct_apuracoes`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `elct_candidatos`
+-- AUTO_INCREMENT de tabela `elct_candidatos`
 --
 ALTER TABLE `elct_candidatos`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `elct_sessoes`
+-- AUTO_INCREMENT de tabela `elct_sessoes`
 --
 ALTER TABLE `elct_sessoes`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- Constraints for dumped tables
+-- Restrições para tabelas despejadas
 --
 
 --
--- Constraints for table `elct_apuracoes`
+-- Restrições para tabelas `elct_abstencoes`
+--
+ALTER TABLE `elct_abstencoes`
+  ADD CONSTRAINT `abstencoes_fk_sessao` FOREIGN KEY (`sessao`) REFERENCES `elct_sessoes` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Restrições para tabelas `elct_apuracoes`
 --
 ALTER TABLE `elct_apuracoes`
   ADD CONSTRAINT `apuracoes_fk_candidato` FOREIGN KEY (`candidato`) REFERENCES `elct_candidatos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,

@@ -1,6 +1,7 @@
 import tables from "./tables"
 import alerts from "./alerts"
 import IMask from "imask"
+import asyncexc from "./asyncexc"
 
 class utils {
 	viewload(visibility = false) {
@@ -97,6 +98,45 @@ class utils {
 			}).finally(() => {
 				this.viewload(false)
 			})
+		}
+
+		if(tables.dashview){
+			function loaddash() {
+				const url = (window.location + '&action=data').replace('#', '')
+
+				axios({
+					method: "GET",
+					url: url,
+				}).then(res => {
+					if (res.status == 200) {
+
+						tables.racetoWin(res.data)
+						
+					} else {
+						alerts.send({ type: "danger", info: "Falha ao Carregar Dados" })
+					}
+				}).catch(error => {
+					alerts.send({ type: "danger", info: "Falha Sistemica no Servidor!" })
+					console.log(error)
+				})
+
+			}
+			setInterval(loaddash, 5000)
+		}
+
+		const trigerfeed = document.querySelector('.trigerfeed');
+		const formfeed   = document.getElementById('form_apuracao')
+		if(trigerfeed){
+			trigerfeed.addEventListener('change', e => {
+				const key = e.target.value
+				const url = (window.location + '&action=dataone&key='+key).replace('#', '')
+				asyncexc.reqGet(
+					{
+						url:url,
+						form:formfeed
+					}, asyncexc.resAsync
+					)
+			});
 		}
 	}
 

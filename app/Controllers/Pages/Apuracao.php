@@ -1,65 +1,100 @@
 <?php
 namespace App\Controllers\Pages;
 
+use App\Data\ImpDao;
+use App\Models\Abstencao;
+use App\Models\Candidato;
+use App\Models\Sessao;
 use App\Utils\Alerts;
 use App\Utils\Forms;
+use App\Utils\Html;
+use App\Utils\Route;
 use App\Utils\Utils;
 use App\Utils\Validate;
 
 class Apuracao extends Page
 {
+	private ?array $candidatos;
+
+	public function __construct()
+	{
+		$this->candidatos = (new ImpDao(new Candidato()))->readData(all:true, order:'nome') ?? [];
+	}
 
 	public function index(): string
 	{
-		$params = [
-			
+		$sessoes = (new ImpDao(new Sessao()))->readData(all:true, order:'numero'); 
+		$params  = [
+			'form_sessoes' 	  => Html::selectObj($sessoes, "id", ["numero", "local"]),
+			'form_candidatos' => Html::inputvoto($this->candidatos)
 		];
 		return $this->getPage('Apuracao', 'pages/apuracao', $params);
 	}
 
 	public function submit(): string
 	{
+		$values   = Forms::all();
+		$validate = Validate::check($values, [
+			'sessao'  => 'required',
+			'nulos'   => 'required',
+			'brancos' => 'required',
+		]);
+
+		if($validate['status']){
+			
+			$abstencao = new ImpDao(new Abstencao());
+			$abstencao -> readData(['sessao'=>$values['sessao']]);
+			$abstencao -> getModel()->feeds($values);
+			$abstencao -> writeData();
 		
+			$success = [];
+			foreach ($this->candidatos as $candidato) {
+				$apuracao = new ImpDao(new \App\Models\Apuracao());
+				$apuracao -> readData(['candidato' => $candidato->get('id'), 'sessao' => $values['sessao']]);
+				$apuracao -> getModel()->set('candidato', $candidato->get('id'));
+				$apuracao -> getModel()->set('sessao', $values['sessao']);
+				$apuracao -> getModel()->set('votos', $values['votos_'.$candidato->get('id')]);
+				$write = $apuracao ->writeData();
+
+				$success[] = $write['status'];
+			}
+
+			if(in_array(false, $success)){
+				return json_encode([
+					'message' => Alerts::msg(Alerts::WARNING, "Falha ao gravar alguns dados..."),
+				]);
+			}else{
+				return json_encode([
+					'message' => Alerts::msg(Alerts::SUCCESS, "Votos gravados com sucesso..."),
+				]);
+			}
+		}
 
 		return json_encode([
-			'message' => Alerts::msg(Alerts::WARNING, ""),
+			'message' => Alerts::msg(Alerts::WARNING, "Dados inválidos..."),
 		]);
-	}
-
-	public function data(bool $json = true): string|array
-	{
-		$header = [
-			'cod'			 => 'CÓDIGO',
-			'nome'			 => 'SETOR',
-			'endereco'		 => 'ENDEREÇO',
-			'telefone'		 => 'TELEFONE',
-			'encarregado'	 => 'RESP.',
-			'actions'		 => ''
-		];
-		// $setores = (new ImpDao(new EntitySetor()))->readData($this->search(), true, 'nome');
-
-		$data = [
-			'header' => $header,
-			// 'body' => EntitySetor::toArray($setores, array_keys($header), ["edit", "delete"]),
-		];
-
-		return $json ? json_encode(['dataview' => $data]) : $data;
 	}
 
 	public function dataone(?array $params = null):string
 	{
-		// $search = $params ?? ['id' => Route::only('key')];
-		// $setor  = (new ImpDao(new EntitySetor()))->readData($search);
-		// if($setor != null){
-		// 	return json_encode([
-		// 		'dataobj' => $setor->getPropsValues()
-		// 	]);
-		// }
+		$search = $params ?? ['sessao' => Route::only('key')];
+		$abstencao = (new ImpDao(new Abstencao()))->readData($search);
+		$apuracao = (new ImpDao(new \App\Models\Apuracao()))->readData($search, true);
+		$normalize = [];
+		if($abstencao != null && $apuracao != null){
+			$normalize['sessao']  = $abstencao->get('sessao');
+			$normalize['brancos'] = $abstencao->get('brancos');
+			$normalize['nulos']   = $abstencao->get('nulos');
 
-		// return json_encode([
-		// 	'message' => Alerts::msg(Alerts::WARNING, 'Dados Não Localizados...')
-		// ]);
-		return "";
+			foreach ($apuracao as $ap) {
+				$normalize['votos_'.$ap->get('candidato')] = $ap->get('votos');
+			}
+		}
+
+		return json_encode([
+			'dataobj' => $normalize
+		]);
+
 	}
 
 	public function erase():string

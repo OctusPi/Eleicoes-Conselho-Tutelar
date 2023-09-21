@@ -1,6 +1,7 @@
 class tables {
 	constructor() {
 		this.container = document.getElementById('data-view')
+		this.dashview  = document.getElementById('dash-view')
 	}
 
 	table(json) {
@@ -228,6 +229,69 @@ class tables {
 		}
 
 		return colors[status]
+	}
+
+	racetoWin(json){
+		if(json.sintetico && json.votacao){
+
+			while(this.dashview.firstChild){
+				this.dashview.removeChild(this.dashview.firstChild)
+			}
+
+			const sintetico = json.sintetico
+			const votacao   = json.votacao
+
+			const urnas   = document.getElementById('dash_urnas')
+			const votos   = document.getElementById('dash_votos')
+			const brancos = document.getElementById('dash_brancos')
+			const nulos   = document.getElementById('dash_nulos')
+
+			if(urnas && votos && brancos && nulos){
+				urnas.textContent = sintetico.urnas
+				votos.textContent = sintetico.votos
+				brancos.textContent = sintetico.brancos
+				nulos.textContent = sintetico.nulos
+			}
+
+			votacao.forEach(candidato => {
+				//container candidado
+				const div = document.createElement('div')
+				div.classList.add('mb-4', 'd-flex')
+				const divvotes = document.createElement('div')
+				divvotes.classList.add('divvotes')
+
+				//foto candidato
+				for(let index in candidato){
+					if(index == 'foto'){
+						const foto = document.createElement('img')
+						foto.classList.add('foto-table', 'me-2')
+						foto.src = 'storage/uploads/'+candidato[index]
+						div.appendChild(foto)
+					}else{
+						if(index == 'votos'){
+							const prog = document.createElement('div')
+							const progbar = document.createElement('div')
+							prog.classList.add('progress', 'dash-progress', 'd-block')
+							progbar.classList.add('progress-bar', 'progress-bar-striped', 'bg-primary')
+							progbar.style.width = ((candidato[index] * 100) / sintetico.votos)+'%'
+							progbar.textContent = candidato[index]+' Votos'
+							prog.appendChild(progbar)
+							divvotes.appendChild(prog)
+						}else{
+							const p = document.createElement('p');
+							p.classList.add('dash-name-cadidate')
+							p.textContent = candidato[index]
+							divvotes.appendChild(p)
+						}
+
+						div.appendChild(divvotes)
+					}
+				}
+
+				this.dashview.appendChild(div)
+			})
+
+		}
 	}
 }
 
