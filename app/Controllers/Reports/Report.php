@@ -11,8 +11,8 @@ abstract class Report
     public function getReport(string $title, string $content, array $params = []):string
     {
         $base = [
-            'h_sisname' => Page::APPNAME,
-            'h_company' => Page::APPDESC,
+            'h_sisname' => 'Eleiços Conselho Tutelar 2023',
+            'h_company' => 'Prefeitura Municipal de Campos sales <br> Secretaria de Assistência Social e Trabalho',
             'content'   => View::renderView($content, $params),
         ];
 

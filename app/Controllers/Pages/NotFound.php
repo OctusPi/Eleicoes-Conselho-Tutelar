@@ -1,6 +1,5 @@
 <?php
 namespace App\Controllers\Pages;
-use App\Utils\Session;
 
 class NotFound extends Page
 {

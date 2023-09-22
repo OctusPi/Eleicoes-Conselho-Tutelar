@@ -7,7 +7,6 @@ use App\Models\Sessao;
 use App\Utils\Alerts;
 use App\Utils\Forms;
 use App\Utils\Route;
-use App\Utils\Uploads;
 use App\Utils\Utils;
 use App\Utils\Validate;
 use App\Utils\View;

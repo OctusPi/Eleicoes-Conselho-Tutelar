@@ -606,6 +606,10 @@ input[type="reset"] {
 	align-items: center;
 }
 
+.candidato-view{
+	flex-grow: 2;
+}
+
 .candidato-view span{
 	margin: 0;
 	padding: 0;

@@ -9,7 +9,7 @@ use App\Controllers\Pages\NotFound;
 class Route
 {
     const NAMESPACE = 'App\\Controllers\\Pages\\';
-    const DEFAULTPG = 'apuracao';
+    const DEFAULTPG = 'dashboard';
     
 
     public static function gets():array

@@ -1,6 +1,5 @@
 <?php
 namespace App\Controllers\Pages;
-use App\Utils\Session;
 
 class Denied extends Page
 {
