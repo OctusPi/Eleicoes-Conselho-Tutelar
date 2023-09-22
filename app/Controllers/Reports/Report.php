@@ -11,7 +11,7 @@ abstract class Report
     public function getReport(string $title, string $content, array $params = []):string
     {
         $base = [
-            'h_sisname' => 'Eleiços Conselho Tutelar 2023',
+            'h_sisname' => 'Eleições Conselho Tutelar 2023',
             'h_company' => 'Prefeitura Municipal de Campos sales <br> Secretaria de Assistência Social e Trabalho',
             'content'   => View::renderView($content, $params),
         ];
@@ -32,8 +32,8 @@ abstract class Report
         $style  = file_get_contents(__DIR__ . '/../../../resources/css/report.css');
         $params = [
             'mode'              => 'utf-8',
-            'format'            => 'A4-P',
-            'default_font_size' => 8,
+            'format'            => 'A4-L',
+            'default_font_size' => 7,
             'default_font'      => 'Arial'
         ];
 

@@ -21,4 +21,18 @@ class Apuracao extends Model
 	{
 		return ['candidato', 'sessao', 'votos'];
 	}
+
+    public static function getJoinProps(): array
+	{
+		return [
+			'entitys' => [
+                'cadidato'     => new Candidato(),
+                'sessao'       => new Sessao()
+            ],
+			'joins'   => [
+                ['candidato', 'id'],
+                ['sessao', 'id']
+            ]
+		];
+	}
 }

@@ -36,28 +36,43 @@ class Reports extends Page
 
 	private function data():array
 	{
+		//searchs
 		$search = $this->search();
-		$searchCandidato = Utils::at('cadidato', $search) ? ['id'=>$search['candidato']] : [];
+		$searchCandidato = Utils::at('candidato', $search) ? ['id'=>$search['candidato']] : [];
 		$searchSessao    = Utils::at('sessao', $search)   ? ['id'=>$search['sessao']]    : [];
 
+		//consult SQL
 		$candidatos = (new ImpDao(new Candidato()))->readData($searchCandidato, true, 'nome') ?? [];
 		$sessoes    = (new ImpDao(new Sessao()))->readData($searchSessao, true, 'numero') ?? [];
 
-		$header = array_merge(['0' => 'Seção/Candidato'], Utils::selectObj($candidatos, 'id', ['nome', 'numero']));
+		//Maps
+		$mapCandidatos = Utils::selectObj($candidatos, 'id', ['nome', 'numero']);
+
+		//Orde Position Winners
+		$winners = [];
+		foreach ($candidatos as $candidato) {
+			$totalVotos = (new ImpDao(new Apuracao()))->readSUM('votos', ['candidato' => $candidato->get('id')]);
+			$winners[$candidato->get('id')] = $totalVotos;
+		}
+		arsort($winners);
+
+		//initialize header and body make table
+		$header = array_merge(['0' => 'CANDIDATO/SEÇÃO'], Utils::selectObj($sessoes, 'id', ['numero', 'local']), ['TOTAL'=>'TOTAL VOTOS']);
 		$body   = [];
 
-		foreach ($sessoes as $sessao) {
+		//feed body with values
+		foreach ($winners as $key=>$winner) {
 			$apuracao = [];
-			$apuracao['sessao'] = $sessao->get('numero').' - '.$sessao->get('local');
-			foreach ($candidatos as $candidato) {
-				$votos = (new ImpDao(new Apuracao()))->readData(['candidato' => $candidato->get('id'), 'sessao' => $sessao->get('id')]);
+			$apuracao['candidato'] = $mapCandidatos[$key];
+			foreach ($sessoes as $sessao) {
+				$votos = (new ImpDao(new Apuracao()))->readData(['candidato' => $key, 'sessao' => $sessao->get('id')]);
 				$total = $votos != null ? $votos->get('votos') : 0;
 				$apuracao[] = $total; 
 			}
+			$apuracao['total'] = $winner;
 
 			$body[] = $apuracao;
 		}
-		
 
         return [
 			'header' => $header,
