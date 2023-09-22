@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: database:3306
--- Tempo de geração: 21/09/2023 às 11:39
+-- Tempo de geração: 22/09/2023 às 01:47
 -- Versão do servidor: 8.1.0
 -- Versão do PHP: 8.2.9
 
@@ -34,6 +34,14 @@ CREATE TABLE `elct_abstencoes` (
   `brancos` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
+--
+-- Despejando dados para a tabela `elct_abstencoes`
+--
+
+INSERT INTO `elct_abstencoes` (`id`, `sessao`, `nulos`, `brancos`) VALUES
+(1, 2, 8, 10),
+(2, 1, 8, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -46,6 +54,20 @@ CREATE TABLE `elct_apuracoes` (
   `sessao` int NOT NULL,
   `votos` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+--
+-- Despejando dados para a tabela `elct_apuracoes`
+--
+
+INSERT INTO `elct_apuracoes` (`id`, `candidato`, `sessao`, `votos`) VALUES
+(1, 6, 2, 250),
+(2, 4, 2, 340),
+(3, 5, 2, 320),
+(4, 3, 2, 750),
+(5, 6, 1, 250),
+(6, 4, 1, 340),
+(7, 5, 1, 3200),
+(8, 3, 1, 170);
 
 -- --------------------------------------------------------
 
@@ -65,7 +87,10 @@ CREATE TABLE `elct_candidatos` (
 --
 
 INSERT INTO `elct_candidatos` (`id`, `nome`, `numero`, `foto`) VALUES
-(2, 'ALEXANDRA ROSSUEL', '111', 'a1caed054a901f82b59459d4c238b563.png');
+(3, 'MARIA FLORES DA SILVA', '100', 'e13928d3f3e8b48bed029579a82cf979.png'),
+(4, 'ANTONIA SAIKE DE ALENCAR', '990', '3f37bcae1514a95ccd5f02302c80c07c.png'),
+(5, 'FRANCISCA PRINCE DE ANDRADE', '345', '7a7aabd0dea0a887b31ae2ac88aa2093.png'),
+(6, 'ANGELO PEREIRA AMORIM', '675', '8a6d2ff08903cb95bd37875f1e5534d0.png');
 
 -- --------------------------------------------------------
 
@@ -78,6 +103,14 @@ CREATE TABLE `elct_sessoes` (
   `local` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `numero` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+--
+-- Despejando dados para a tabela `elct_sessoes`
+--
+
+INSERT INTO `elct_sessoes` (`id`, `local`, `numero`) VALUES
+(1, 'CABARÉ DE DONA CHICA', '001'),
+(2, 'BAR DE SEU VALENÇA', '002');
 
 --
 -- Índices para tabelas despejadas
@@ -118,25 +151,25 @@ ALTER TABLE `elct_sessoes`
 -- AUTO_INCREMENT de tabela `elct_abstencoes`
 --
 ALTER TABLE `elct_abstencoes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `elct_apuracoes`
 --
 ALTER TABLE `elct_apuracoes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `elct_candidatos`
 --
 ALTER TABLE `elct_candidatos`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `elct_sessoes`
 --
 ALTER TABLE `elct_sessoes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restrições para tabelas despejadas
