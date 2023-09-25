@@ -66,7 +66,7 @@ class Dashboard extends Page
 		}
 		
 		$sintenco = [
-			'urnas' => $sessoes.'/'.count($abstencoes),
+			'urnas' => count($abstencoes).'/'.$sessoes,
 			'votos' => $votos,
 			'brancos' => $brancos,
 			'nulos' => $nulos
