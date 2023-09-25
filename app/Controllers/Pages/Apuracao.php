@@ -81,8 +81,8 @@ class Apuracao extends Page
 		$abstencao = (new ImpDao(new Abstencao()))->readData($search);
 		$apuracao = (new ImpDao(new \App\Models\Apuracao()))->readData($search, true);
 		$normalize = [];
+		$normalize['sessao']  = Route::only('key');
 		if($abstencao != null && $apuracao != null){
-			$normalize['sessao']  = $abstencao->get('sessao');
 			$normalize['brancos'] = $abstencao->get('brancos');
 			$normalize['nulos']   = $abstencao->get('nulos');
 
@@ -131,27 +131,5 @@ class Apuracao extends Page
 		return json_encode([
 			'message' => Alerts::msg(Alerts::WARNING, $isvalid['messages']),
 		]);
-	}
-
-	private function search(): array
-	{
-
-		$fields = ['cod', 'nome', 'zona'];
-
-		$values   = Forms::all();
-		$insearch = Forms::only('search');
-		$isvalid  = Validate::check($values, [], $insearch != null ? 'token' : 'token_search');
-
-		if ($isvalid['status']) {
-			if ($insearch != null) {
-				return array_filter(Utils::urlsearch($insearch, $fields));
-			}
-
-			if(key_exists('token_search', $values)){
-				return array_filter(Forms::all($fields));
-			}
-		}
-
-		return [];
 	}
 }
