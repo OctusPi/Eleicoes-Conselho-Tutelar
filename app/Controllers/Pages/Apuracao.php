@@ -18,7 +18,7 @@ class Apuracao extends Page
 
 	public function __construct()
 	{
-		$this->candidatos = (new ImpDao(new Candidato()))->readData(all:true, order:'nome') ?? [];
+		$this->candidatos = (new ImpDao(new Candidato()))->readData(all:true, order:'numero') ?? [];
 	}
 
 	public function index(): string
